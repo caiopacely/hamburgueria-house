@@ -7,55 +7,55 @@ const closedButton = document.getElementById("closed-button");
 const conteudoCart = document.getElementById("conteudo");
 const totalCart = document.getElementById("total-cart");   
 const quantityCart = document.getElementById("quantity-cart");      
-let cartProduct = []
+const remove = document.getElementById("remove");
+let cartProduct = [];   
 
 barraCart.addEventListener("click", function(){
-    modal.style.display = "flex"
+    modal.style.display = "flex";
 })
 
 modal.addEventListener("click",function(event){
     if(event.target === modal || event.target === closedButton){
-         modal.style.display = "none"
+         modal.style.display = "none";
     }
 })
 
 menu.addEventListener("click",function(event){   
-    let selectProd = event.target.closest(".get-item")   
+    let selectProd = event.target.closest(".get-item");   
     
     if(selectProd){
-        const name = selectProd.getAttribute("dataName")
-        const price = selectProd.getAttribute("dataPrice")      
-        addProduct(name,price)
+        const name = selectProd.getAttribute("dataName");
+        const price = selectProd.getAttribute("dataPrice");   
+        addProduct(name,price);
     }
 })
 
 menuBebidas.addEventListener("click",function(event){   
-    let selectProd = event.target.closest(".get-item")
+    let selectProd = event.target.closest(".get-item");
     
     if(selectProd){
-        const name = selectProd.getAttribute("dataName")
-        const price = selectProd.getAttribute("dataPrice")
-        addProduct(name,price)    
+        const name = selectProd.getAttribute("dataName");
+        const price = selectProd.getAttribute("dataPrice");
+        addProduct(name,price);    
     }
 })
 
 function addProduct(name,price){
     
     let produtoContem = cartProduct.find(prod => prod.name === name);
-    totalCart.innerHTML = (parseFloat(totalCart.innerHTML) + parseFloat(price)).toFixed(2)
+    totalCart.innerHTML = (parseFloat(totalCart.innerHTML) + parseFloat(price)).toFixed(2);
     
     if(produtoContem){
         produtoContem.quantity ++;
-        produtoContem.price = parseFloat(produtoContem.price) + parseFloat(price);
-        upCart()
+        upCart();
     }
     else{
         cartProduct.push({
             name,
             price,
             quantity: 1,
-        })       
-        upCart()
+        });    
+        upCart();
     }  
 }
 
@@ -70,7 +70,7 @@ function upCart(){
             <p  class="font-bold">${produto.name}</p>
             <div class="flex justify-between">
                 <p>(Quantidade: ${produto.quantity})</p>
-                <p>Remover</p>
+                <button prodName="${produto.name}" id="remove" >Remover</button>
             </div>
             <p>R$ ${produto.price}</p>
         </div>`;
@@ -78,21 +78,32 @@ function upCart(){
         conteudoCart.appendChild(decriptionProd); 
 
     });
-    quantityCart.innerHTML=cartProduct.length
+    quantityCart.innerHTML=cartProduct.length;
 }
 
+conteudoCart.addEventListener("click",function(action){
+    const remover = action.target.closest("#remove")
+    if(remover){
+        const prodName = remover.getAttribute("prodName");
+        removerProduto(prodName);
+    }  
+})
 
-
-
-
-
-
-
-
-
-
-
-
+function removerProduto(name){
+    cartProduct.forEach(produto => {
+        if(produto.name===name){
+            totalCart.innerHTML = (parseFloat(totalCart.innerHTML) - parseFloat(produto.price)).toFixed(2);
+            if(produto.quantity>1){
+                produto.quantity--;
+                upCart()
+            }
+            else{
+                cartProduct.splice(cartProduct.indexOf(produto),1)
+                upCart()
+            }
+        }
+    });
+}
 
 function upTime(){  
     let date = new Date()
