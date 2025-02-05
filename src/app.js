@@ -8,6 +8,9 @@ const conteudoCart = document.getElementById("conteudo");
 const totalCart = document.getElementById("total-cart");   
 const quantityCart = document.getElementById("quantity-cart");      
 const remove = document.getElementById("remove");
+const warning = document.getElementById("warning");
+const finalizeOrder = document.getElementById("finalize-order");
+const inputEddress = document.getElementById("inputEddress");
 let cartProduct = [];   
 
 barraCart.addEventListener("click", function(){
@@ -70,7 +73,7 @@ function upCart(){
             <p  class="font-bold">${produto.name}</p>
             <div class="flex justify-between">
                 <p>(Quantidade: ${produto.quantity})</p>
-                <button prodName="${produto.name}" id="remove" >Remover</button>
+                <button class="cursor-pointer" prodName="${produto.name}" id="remove" >Remover</button>
             </div>
             <p>R$ ${produto.price}</p>
         </div>`;
@@ -104,6 +107,40 @@ function removerProduto(name){
         }
     });
 }
+
+inputEddress.addEventListener("input",function(action){
+    let value = action.target.value;
+
+    if(value != ""){
+        warning.classList.add("hidden")
+        inputEddress.classList.remove("border-red-500")
+    }
+})
+
+
+
+finalizeOrder.addEventListener("click",function(){
+    
+    if(inputEddress.value === ""){
+        warning.classList.remove("hidden")
+        inputEddress.classList.add("border-red-500")
+        return;
+    }
+    
+    const cartItens = cartProduct.map((item) => {
+        return (`* ${item.name} - Quantidade(${item.quantity}) - Preço R$ ${item.price} |\n
+`)
+    }).join("")
+
+    let phone = 85996652060;
+    let mensagem = encodeURIComponent(cartItens);
+    window.open(`https://wa.me/${phone}?text=${mensagem}\n Endereço:  ${inputEddress.value} \n Total: ${totalCart.innerText}`, "_blank");
+
+
+
+        
+})
+
 
 function upTime(){  
     let date = new Date()
