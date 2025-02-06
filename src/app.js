@@ -128,17 +128,19 @@ finalizeOrder.addEventListener("click",function(){
     }
     
     const cartItens = cartProduct.map((item) => {
-        return (`* ${item.name} - Quantidade(${item.quantity}) - Preço R$ ${item.price} |\n
-`)
-    }).join("")
-
-    let phone = 85996652060;
-    let mensagem = encodeURIComponent(cartItens);
-    window.open(`https://wa.me/${phone}?text=${mensagem}\n Endereço:  ${inputEddress.value} \n Total: ${totalCart.innerText}`, "_blank");
-
-
-
-        
+        return `* *${item.name}* - Quantidade: ${item.quantity} - Preço: R$ ${item.price}`;
+    }).join("\n");
+    
+    const message = ` *Pedido realizado*\n\n${cartItens}\n\n *Endereço:* ${inputEddress.value} \n *Total:* R$ ${totalCart.innerText}\n\n *Por favor, confirme o pedido e o tempo de entrega.*`;
+    
+    
+    const encodedMessage = encodeURIComponent(message);
+    
+    let phone = "5585988907313"; 
+    
+    window.open(`https://wa.me/${phone}?text=${encodedMessage}`, "_blank");
+    
+    
 })
 
 
