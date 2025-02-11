@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "twemoji": "^14.0.2"
+    "@tailwindcss/cli": "^4.0.6",
+    "tailwindcss": "^4.0.6"
   }
 }
