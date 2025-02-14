@@ -21,3 +21,9 @@ button:active{
 #modal-cart button:active{
     transform: scale(0.95);
 }
+
+.atualizar{
+    size: 30px;
+    color: white;
+    padding-inline: 10px;   
+}
